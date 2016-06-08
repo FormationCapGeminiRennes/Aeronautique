@@ -6,6 +6,7 @@ public class Avion {
 	private String nom;
 	private String loc;
 	private int capacite;
+	private int enPlus;
 	
 	/**
 	 * ON ajoute des commentaires
