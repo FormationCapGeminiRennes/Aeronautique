@@ -17,6 +17,18 @@ public class Avion {
 	
 	
 
+	public String getLoc() {
+		return loc;
+	}
+
+
+
+	public void setLoc(String loc) {
+		this.loc = loc;
+	}
+
+
+
 	public String getNom() {
 		return nom;
 	}
