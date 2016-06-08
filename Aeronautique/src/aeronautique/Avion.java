@@ -7,6 +7,13 @@ public class Avion {
 	private String loc;
 	private int capacite;
 	
+	/**
+	 * ON ajoute des commentaires
+	 * @param numero
+	 * @param nom
+	 * @param loc
+	 * @param capacite
+	 */
 	public Avion(int numero, String nom, String loc, int capacite) {
 		super();
 		this.numero = numero;
