@@ -14,6 +14,20 @@ public class Avion {
 		this.loc = loc;
 		this.capacite = capacite;
 	}
+	
+	
+
+	public String getNom() {
+		return nom;
+	}
+
+
+
+	public void setNom(String nom) {
+		this.nom = nom;
+	}
+
+
 
 	@Override
 	public String toString() {
