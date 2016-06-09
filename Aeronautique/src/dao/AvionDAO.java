@@ -1,6 +1,7 @@
 package dao;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import aeronautique.Avion;
@@ -51,13 +52,26 @@ public class AvionDAO extends DAO<Avion> {
 	@Override
 	public boolean update(Avion av) {
 		// TODO Auto-generated method stub
+		String requete = "UPDATE "+TABLE+" SET nomav=?, loc = ?, capacite = ?"+
+		"WHERE numav=?";
 		return false;
 	}
 
 	@Override
 	public Avion find(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		Avion avion = null;
+		try {
+			String requete = "SELECT * FROM "+TABLE+" WHERE "+CLE_PRIMAIRE+" = "+id;
+			ResultSet rs = Connexion.executeQuery(requete);
+			rs.next();
+			String nom = rs.getString("nomav");
+			String loc = rs.getString("loc");
+			int capacite = rs.getInt("capacite");
+			avion = new Avion (id, nom, loc, capacite);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return avion;
 	}
 
 

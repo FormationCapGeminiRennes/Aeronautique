@@ -110,6 +110,9 @@ public class Connexion {
 						case Types.DATE:
 							System.out.print(res.getDate(j)+"|");							
 							break;
+						case Types.TIMESTAMP:
+							System.out.print(res.getTimestamp(j)+"|");							
+							break;
 						case Types.INTEGER:
 							System.out.print(res.getInt(j)+"|");							
 							break;
