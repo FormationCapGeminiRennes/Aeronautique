@@ -54,9 +54,33 @@ public class Avion {
 
 
 
+	public int getCapacite() {
+		return capacite;
+	}
+
+
+
+	public void setCapacite(int capacite) {
+		this.capacite = capacite;
+	}
+
+
+
 	@Override
 	public String toString() {
 		return "Avion [numero=" + numero + ", nom=" + nom + ", loc=" + loc + ", capacite=" + capacite + "]";
+	}
+
+
+
+	public int getNumero() {
+		return numero;
+	}
+
+
+
+	public void setNumero(int numero) {
+		this.numero=numero;
 	}
 
 	
