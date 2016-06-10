@@ -1,10 +1,15 @@
 package controleur;
 
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 
 import aeronautique.Avion;
+import aeronautique.Pilote;
+import aeronautique.Vol;
 import dao.AvionDAO;
 import dao.Connexion;
+import dao.PiloteDAO;
+import dao.VolDAO;
 import ihm.Menu;
 
 public class Controleur {
@@ -95,7 +100,7 @@ public class Controleur {
 				choix = menuPrecedent;
 				break;
 			case Controleur.MENU_AFFICHER_PILOTE :
-				//(new PiloteDAO()).afficheSelectEtoilePilote();
+				(new PiloteDAO()).afficheSelectEtoilePilote();
 				choix = menuPrecedent;
 				break;
 			case Controleur.MENU_AFFICHER_VOL :
@@ -141,13 +146,17 @@ public class Controleur {
 
 
 	private void effectuerSupprPilote() {
-		// TODO contrôler les identifiants autorisés, qui n'apparaissent pas dans vol
-
+		(new PiloteDAO()).afficheSelectEtoilePilote();
+		Menu.afficheMsg("Quel numéro de pilote supprimer ?");		
+		Pilote av = new Pilote(Menu.lireInt(),null, null, -1);
+		(new PiloteDAO()).delete(av);
 	}
 
 	private void effectuerSupprVol() {
-		// TODO, pas de contrôle particulier
-
+		Connexion.afficheSelectEtoile("Vol", null);
+		Menu.afficheMsg("Quel numéro de vol supprimer ?");		
+		Vol av = new Vol(Menu.lireInt(),0,null, null, null,null);
+		(new VolDAO()).delete(av);
 	}
 
 	private void effectuerSupprAvion() {
@@ -159,17 +168,63 @@ public class Controleur {
 	}
 
 	private void effectuerAjoutPilote() {
-		// TODO pas de contrôle particulier
+		Menu.afficheMsg("Quel est le nom du pilote ?");
+		String nom = Menu.lireString();
+		Menu.afficheMsg("Quelle est son adresse ?");
+		String adr = Menu.lireString();
+		Menu.afficheMsg("Quelle est son salaire ?");
+		int salaire = Menu.lireInt();
+		Pilote pilote = new Pilote(-1, nom, adr, salaire);
+		(new PiloteDAO()).create(pilote);
 
+	}
+
+	private GregorianCalendar lireDate(String msg){
+		Menu.afficheMsg("date heure "+msg);		
+		String dateActuelle=""; 
+		Menu.afficheMsg("quelle année "+msg+" : "+dateActuelle);
+		int annee = Menu.lireInt();
+		dateActuelle+=annee+"/";
+		Menu.afficheMsg("quelle mois "+msg+" : "+dateActuelle);
+		int mois = Menu.lireInt();
+		dateActuelle+=mois+"/";
+		Menu.afficheMsg("quelle jour "+msg+" : "+dateActuelle);
+		int jour = Menu.lireInt();
+		dateActuelle+=jour+" ";
+		Menu.afficheMsg("quelle heure "+msg+" : "+dateActuelle);
+		int heure = Menu.lireInt();
+		dateActuelle+=heure+":";
+		Menu.afficheMsg("quelle minute "+msg+" : "+dateActuelle);
+		int minute = Menu.lireInt();
+		dateActuelle+=minute+":";
+		Menu.afficheMsg("quelle seconde "+msg+" : "+dateActuelle);
+		int seconde = Menu.lireInt();
+		dateActuelle+=seconde;
+		Menu.afficheMsg("date heure "+msg+" "+dateActuelle);		
+		return new GregorianCalendar(annee, mois-1, jour, heure, minute, seconde);
 	}
 
 	private void effectuerAjoutVol() {
-		// TODO contrôler que les identifiants d'avion et de pilote soient parmis ceux connus.
+		(new PiloteDAO()).afficheSelectEtoilePilote();
+		Menu.afficheMsg("POur ce nouveau Vol, quel id de pilote ?");
+		int numPil= Menu.lireInt();
 
+		(new AvionDAO()).afficheSelectEtoileAvion();
+		Menu.afficheMsg("Quel id d'avion ?");
+		int numAv= Menu.lireInt();
+
+		Menu.afficheMsg("Quelle ville de départ ?");
+		String vDep = Menu.lireString();
+		Menu.afficheMsg("Quelle ville d'arrivée ?");
+		String vArr = Menu.lireString();
+		GregorianCalendar hDep = lireDate("DEPART");
+		GregorianCalendar hArr = lireDate("DEPART");		
+		Vol v = new Vol(numPil, numAv, hDep, hArr, vDep, vArr);
+		(new VolDAO()).create(v);
 	}
 
 	private void effectuerAjoutAvion() {
-		Menu.afficheMsg("Quel est son nom ?");
+		Menu.afficheMsg("Quel est le nom de l'avion ?");
 		String nom = Menu.lireString();
 		Menu.afficheMsg("Quelle est sa localisation?");
 		String loc = Menu.lireString();
@@ -352,14 +407,6 @@ public class Controleur {
 			break;
 		}
 		return rep;
-	}
-
-	/**
-	 * Permet de lire un mot frappé au clavier
-	 * @return
-	 */
-	private String getMot(){
-		return Menu.lireString();
 	}
 
 }

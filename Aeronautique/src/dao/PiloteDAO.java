@@ -5,25 +5,27 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import aeronautique.Avion;
+import aeronautique.Pilote;
 
-public class AvionDAO extends DAO<Avion> {
+public class PiloteDAO extends DAO<Pilote> {
 
-	private static final String TABLE = "Avion";
-	private static final String CLE_PRIMAIRE = "numav";
+	private static final String TABLE = "Pilote";
+	private static final String CLE_PRIMAIRE = "numPil";
 
+	
 	@Override
-	public boolean create(Avion av) {
+	public boolean create(Pilote pilote) {
 		boolean succes=true;
 		try {
-			String requete = "INSERT INTO "+TABLE+" (nomav, loc, capacite) VALUES (?, ?, ?)";
+			String requete = "INSERT INTO "+TABLE+" (nompil, adr, sal) VALUES (?, ?, ?)";
 			PreparedStatement pst = Connexion.getInstance().prepareStatement(requete);
-			pst.setString(1, av.getNom());
-			pst.setString(2, av.getLoc());
-			pst.setInt(3, av.getCapacite());
+			pst.setString(1, pilote.getNomPil());
+			pst.setString(2, pilote.getAdr());
+			pst.setInt(3, pilote.getSalaire());
 			pst.executeUpdate();
 			
 			//mettre à jour l'identifiant
-			av.setNumero(Connexion.getMaxId(CLE_PRIMAIRE, TABLE));
+			pilote.setNumPil(Connexion.getMaxId(CLE_PRIMAIRE, TABLE));
 			
 		} catch (SQLException e) {
 			succes=false;
@@ -34,10 +36,10 @@ public class AvionDAO extends DAO<Avion> {
 	}
 
 	@Override
-	public boolean delete(Avion av) {
+	public boolean delete(Pilote pilote) {
 		boolean succes = true;
 		try {
-			int id = av.getNumero();
+			int id = pilote.getNumPil();
 			String requete = "DELETE FROM "+TABLE+" WHERE "+CLE_PRIMAIRE+" = ?";
 			PreparedStatement pst = Connexion.getInstance().prepareStatement(requete);
 			pst.setInt(1, id);
@@ -50,16 +52,16 @@ public class AvionDAO extends DAO<Avion> {
 	}
 
 	@Override
-	public boolean update(Avion obj) {
+	public boolean update(Pilote obj) {
 		boolean succes=true;
 
-		String nom =obj.getNom();
-		String loc =obj.getLoc();
-		int capacite = obj.getCapacite();
-		int id = obj.getNumero();
+		String nom =obj.getNomPil();
+		String loc =obj.getAdr();
+		int capacite = obj.getSalaire();
+		int id = obj.getNumPil();
 
 		try {
-			String requete = "UPDATE "+TABLE+" SET nomav = ?, loc = ?, capacite = ? WHERE "+CLE_PRIMAIRE+" = ?";
+			String requete = "UPDATE "+TABLE+" SET nomPil = ?, Adr = ?, sal = ? WHERE "+CLE_PRIMAIRE+"= ?";
 			PreparedStatement pst = Connexion.getInstance().prepareStatement(requete) ;
 			pst.setString(1,nom) ; 
 			pst.setString(2,loc) ; 
@@ -74,33 +76,33 @@ public class AvionDAO extends DAO<Avion> {
 	}
 
 	@Override
-	public Avion find(int id) {
-		Avion avion = null;
+	public Pilote find(int id) {
+		Pilote pilote = null;
 		try {
 			String requete = "SELECT * FROM "+TABLE+" WHERE "+CLE_PRIMAIRE+" = "+id;
 			ResultSet rs = Connexion.executeQuery(requete);
 			rs.next();
-			String nom = rs.getString("nomav");
-			String loc = rs.getString("loc");
-			int capacite = rs.getInt("capacite");
-			avion = new Avion (id, nom, loc, capacite);
+			String nom = rs.getString("nomPil");
+			String adr = rs.getString("adr");
+			int salaire = rs.getInt("sal");
+			pilote = new Pilote (id, nom, adr, salaire);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return avion;
+		return pilote;
 	}
 
-	public void afficheSelectEtoileAvion() {
-		System.out.println("--- Avion non utilisé ---");
+	public void afficheSelectEtoilePilote() {
+		System.out.println("--- Pilote non utilisé ---");
 		String clauseWhere = CLE_PRIMAIRE+" NOT IN (SELECT "+CLE_PRIMAIRE+" From Vol)";
-		Connexion.afficheSelectEtoile("Avion", clauseWhere);
+		Connexion.afficheSelectEtoile("Pilote", clauseWhere);
 
-		System.out.println("--- Avion contraint par Vol --- ");
+		System.out.println("--- Pilote contraint par Vol --- ");
 		clauseWhere = CLE_PRIMAIRE+" IN (SELECT "+CLE_PRIMAIRE+" From Vol)";
-		Connexion.afficheSelectEtoile("Avion", clauseWhere);
+		Connexion.afficheSelectEtoile("Pilote", clauseWhere);
 		
 	}
 
-
-
+	
+	
 }

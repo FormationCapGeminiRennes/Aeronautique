@@ -43,7 +43,7 @@ public class Connexion {
 	public static ResultSet executeQuery(String requete){
 		Statement st = null ;
 		ResultSet rs = null;
-		System.out.println("requete = "+requete);
+		//System.out.println("requete = "+requete);
 		try{
 			st = getInstance().createStatement() ;
 			rs = st.executeQuery(requete) ;
@@ -60,7 +60,7 @@ public class Connexion {
 	 */
 	public static boolean executeUpdate(String requete){
 		boolean succes = true;
-		System.out.println(requete);
+		//System.out.println(requete);
 		Statement st = null ;
 		try{
 			st = getInstance().createStatement() ;

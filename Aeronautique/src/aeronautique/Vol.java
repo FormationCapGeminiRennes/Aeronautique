@@ -6,8 +6,9 @@ import java.util.GregorianCalendar;
 public class Vol {
 
 	private int numVol;
-	private int numAv;
-	private int numPil;	
+	private int numAv;// Ensuite il faudra passer aux objets
+	private int numPil;	// Ensuite il faudra passer aux objets
+	
 	// Pour les bases de données, on passera par java.sql.Timestamp
 	/* Pour le find :
 	 * GregorianCalendar hArr = new GregorianCalendar();
