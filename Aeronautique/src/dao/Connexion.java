@@ -6,6 +6,8 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Types;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.microsoft.sqlserver.jdbc.SQLServerDataSource;
 
@@ -92,9 +94,13 @@ public class Connexion {
 	 * Attention à ne pas perdre la première ligne en testant la table vide
 	 * @param table
 	 */
-	public static void afficheSelectEtoile(String table){
+	public static void afficheSelectEtoile(String table, String clauseWhere){
 		try{
-			ResultSet res = Connexion.executeQuery("SELECT * FROM "+table) ;
+			String requete = "SELECT * FROM "+table;
+			if (clauseWhere!=null) {
+				requete += " WHERE "+clauseWhere;
+			}
+			ResultSet res = Connexion.executeQuery(requete) ;
 			boolean hasNext =res.next(); 
 			if (!hasNext) {System.out.println("table vide");}
 			else {
@@ -137,7 +143,7 @@ public class Connexion {
 	 * @param table
 	 * @return
 	 */
-	protected static int getMaxId(String cle, String table) {
+	public static int getMaxId(String cle, String table) {
 		String requete = "SELECT MAX("+cle+")as max FROM "+table;
 		ResultSet rs = Connexion.executeQuery(requete);
 		int id= -1;
@@ -150,6 +156,24 @@ public class Connexion {
 		return id;
 	}
 
+	public static List<Integer> getLesIds(String attribut, String table, String clauseWhere) {
+		String requete = "SELECT DISTINCT "+attribut+" FROM "+table;
+		if (clauseWhere!=null) {
+			requete += " WHERE "+clauseWhere;
+		}		
+		ResultSet rs = Connexion.executeQuery(requete);
+		List<Integer> liste = new ArrayList<Integer>();
+		try {
+			while (rs.next()) {
+			int id = rs.getInt(attribut);
+			liste.add(id);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return liste;
+		
+	}
 
 	
 }

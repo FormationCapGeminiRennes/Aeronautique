@@ -74,6 +74,17 @@ public class AvionDAO extends DAO<Avion> {
 		return avion;
 	}
 
+	public void afficheSelectEtoileAvion() {
+		System.out.println("--- Avion non utilisé ---");
+		String clauseWhere = "numav NOT IN (SELECT numAv From Vol)";
+		Connexion.afficheSelectEtoile("Avion", clauseWhere);
+
+		System.out.println("--- Avion contraint par Vol --- ");
+		clauseWhere = "numav IN (SELECT numAv From Vol)";
+		Connexion.afficheSelectEtoile("Avion", clauseWhere);
+		
+	}
+
 
 
 }
