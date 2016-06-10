@@ -6,6 +6,8 @@ import java.util.GregorianCalendar;
 public class Vol {
 
 	private int numVol;
+	//private Avion avion;
+	//private Pilote pilote;
 	private int numAv;// Ensuite il faudra passer aux objets
 	private int numPil;	// Ensuite il faudra passer aux objets
 	

@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.GregorianCalendar;
 
+import aeronautique.Avion;
 import aeronautique.Vol;
 
 public class VolDAO extends DAO<Vol> {
@@ -91,7 +92,8 @@ public class VolDAO extends DAO<Vol> {
 		try {
 			rs.next();
 			int numAv=rs.getInt("numAv");
-			int numPil=rs.getInt("numPil");
+			Avion avion = (new AvionDAO()).find(numAv); // à utiliser
+			int numPil=rs.getInt("numPil"); // TODO idem avec Pilote
 			GregorianCalendar hDep = new GregorianCalendar();
 			hDep.setTimeInMillis(rs.getTimestamp("hdep").getTime());
 			GregorianCalendar hArr = new GregorianCalendar();
